@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+  <title>Universal Electron Application</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Universal Electron Application</h1>
+      <p class="subtitle">Multi-function application with worker threads and child processes</p>
+    </header>
+
+    <main>
+      <!-- System Information Section -->
+      <section class="card">
+        <div class="card-header">
+          <h2>System Information</h2>
+          <button id="refresh-system-info" class="btn btn-small">Refresh</button>
+        </div>
+        <div id="system-info" class="card-content">
+          <p>Loading system information...</p>
+        </div>
+      </section>
+
+      <!-- Worker Test Section -->
+      <section class="card">
+        <h2>Worker Thread Test</h2>
+        <div class="card-content">
+          <p>Test the worker pool by running a computation task:</p>
+          <button id="test-worker" class="btn btn-primary">Run Worker Task</button>
+          <pre id="worker-output" class="output-box">Click the button to run a worker task...</pre>
+        </div>
+      </section>
+
+      <!-- Plugins Section -->
+      <section class="card">
+        <h2>Loaded Plugins</h2>
+        <div id="plugins-list" class="card-content">
+          <p>Loading plugins...</p>
+        </div>
+      </section>
+
+      <!-- Application Features -->
+      <section class="card">
+        <h2>Architecture Features</h2>
+        <div class="card-content">
+          <ul class="features-list">
+            <li><strong>Single Window Design:</strong> One main window for all functionality</li>
+            <li><strong>Worker Thread Pool:</strong> CPU-intensive tasks run in parallel worker threads</li>
+            <li><strong>Child Processes:</strong> Support for spawning Node.js child processes for isolation</li>
+            <li><strong>Plugin System:</strong> Modular architecture for easy extension</li>
+            <li><strong>High Performance:</strong> Optimized for high-end PCs with multiple cores</li>
+            <li><strong>IPC Communication:</strong> Secure communication between processes via callbacks</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Developer Info -->
+      <section class="card">
+        <h2>Developer Information</h2>
+        <div class="card-content">
+          <p>This application demonstrates a scalable Electron architecture with:</p>
+          <ul>
+            <li>Main process for application lifecycle and system operations</li>
+            <li>Single renderer process for UI (this window)</li>
+            <li>Worker thread pool for parallel computation</li>
+            <li>Child process support for heavy/isolated tasks</li>
+            <li>Plugin system for modular functionality</li>
+          </ul>
+          <p class="note">
+            <strong>Note:</strong> Add custom plugins to the <code>plugins/</code> directory to extend functionality.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Universal Electron Application - Optimized for high-end performance</p>
+    </footer>
+  </div>
+
+  <script src="../dist/renderer/index.js"></script>
+</body>
+</html>
