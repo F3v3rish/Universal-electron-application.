@@ -41,7 +41,7 @@ class Application {
     this.pluginManager.addPluginPath(pluginsPath);
 
     // Initialize worker pool
-    const workerScript = path.join(__dirname, '../workers/base-worker.js');
+    const workerScript = path.join(__dirname, 'workers/base-worker.js');
     await this.workerPoolManager.initialize(workerScript).catch((err) => {
       this.logger.error('Failed to initialize worker pool:', err);
     });

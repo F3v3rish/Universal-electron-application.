@@ -15,7 +15,7 @@ export class WindowManager {
 
   private constructor() {
     this.logger = Logger.create('WindowManager');
-    this.preloadScript = path.join(__dirname, '../preload/index.js');
+    this.preloadScript = path.join(__dirname, '../preload/preload/index.js');
   }
 
   static getInstance(): WindowManager {

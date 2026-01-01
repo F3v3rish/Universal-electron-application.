@@ -3,13 +3,12 @@
  * Handles UI interactions and communicates with main process
  */
 
-// Get reference to electronAPI
-const { electronAPI } = window;
-
 /**
  * Initialize the application UI
  */
 async function initializeApp() {
+  // Get reference to electronAPI
+  const electronAPI = window.electronAPI;
   console.log('Initializing renderer...');
 
   // Load system info
@@ -28,6 +27,7 @@ async function initializeApp() {
  * Load and display system information
  */
 async function loadSystemInfo() {
+  const electronAPI = window.electronAPI;
   const result = await electronAPI.system.getInfo();
   
   if (result.success && result.info) {
@@ -57,6 +57,7 @@ async function loadSystemInfo() {
  * Load and display plugins
  */
 async function loadPlugins() {
+  const electronAPI = window.electronAPI;
   const result = await electronAPI.plugins.list();
   
   if (result.success && result.plugins) {
@@ -86,6 +87,8 @@ async function loadPlugins() {
  * Set up event listeners for UI interactions
  */
 function setupEventListeners() {
+  const electronAPI = window.electronAPI;
+  
   // Test worker button
   const testWorkerBtn = document.getElementById('test-worker');
   if (testWorkerBtn) {
