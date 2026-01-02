@@ -13,6 +13,9 @@ on:
 jobs:
   security-audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     
     steps:
       # Setup steps - These run BEFORE any firewall is enabled
