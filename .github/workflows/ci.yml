@@ -25,17 +25,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-
-            ${{ runner.os }}-node-
-      
       - name: Install dependencies
         run: npm ci
       
@@ -59,6 +48,8 @@ jobs:
       
       - name: Verify build output
         run: |
+          # Note: The nested directory structure is correct per BUILD.md
+          # TypeScript compiles src/ to dist/, preserving directory structure
           test -f dist/main/main/index.js || exit 1
           test -f dist/renderer/renderer/index.js || exit 1
           test -f dist/preload/preload/index.js || exit 1
