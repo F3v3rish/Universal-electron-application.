@@ -36,8 +36,8 @@ npm --version
 
 Using Git Bash or Command Prompt:
 ```cmd
-git clone https://github.com/F3v3rish/Universal-electron-application..git
-cd Universal-electron-application.
+git clone https://github.com/F3v3rish/Universal-electron-application.git
+cd Universal-electron-application
 ```
 
 ### 3. Install Dependencies

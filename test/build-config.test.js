@@ -139,6 +139,8 @@ describe('Build Output Validation', () => {
   });
 
   test('renderer should be bundled', () => {
+    // Note: The build structure has nested directories: dist/renderer/renderer/
+    // This is intentional based on the TypeScript configuration
     const rendererPath = path.join(__dirname, '..', 'dist', 'renderer', 'renderer', 'app.js');
     
     if (!fs.existsSync(rendererPath)) {
@@ -150,6 +152,8 @@ describe('Build Output Validation', () => {
   });
 
   test('preload script should be compiled', () => {
+    // Note: The build structure has nested directories: dist/preload/preload/
+    // This is intentional based on the TypeScript configuration
     const preloadPath = path.join(__dirname, '..', 'dist', 'preload', 'preload', 'index.js');
     
     if (!fs.existsSync(preloadPath)) {
