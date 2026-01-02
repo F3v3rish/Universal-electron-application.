@@ -30,6 +30,7 @@ jobs:
       
       # Security checks
       - name: Run npm audit
+        id: audit
         run: npm audit --audit-level=moderate
         continue-on-error: true
       
@@ -42,7 +43,7 @@ jobs:
       
       # Create issue if vulnerabilities found
       - name: Create issue for vulnerabilities
-        if: failure()
+        if: steps.audit.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           script: |
