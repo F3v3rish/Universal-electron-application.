@@ -49,7 +49,8 @@ export const PluginsList: React.FC = () => {
       <div className="card-content">
         {plugins.length === 0 ? (
           <p className="empty-state">
-            No plugins loaded. Add plugins to the <code>plugins/</code> directory to extend functionality.
+            No plugins loaded. Add plugins to the <code>plugins/</code> directory to extend
+            functionality.
           </p>
         ) : (
           <div className="plugins-grid">
@@ -59,9 +60,7 @@ export const PluginsList: React.FC = () => {
                 <p className="plugin-description">{plugin.description}</p>
                 <div className="plugin-meta">
                   <span className="plugin-version">v{plugin.version}</span>
-                  {plugin.author && (
-                    <span className="plugin-author">by {plugin.author}</span>
-                  )}
+                  {plugin.author && <span className="plugin-author">by {plugin.author}</span>}
                 </div>
                 <div className="plugin-id">ID: {plugin.id}</div>
               </div>

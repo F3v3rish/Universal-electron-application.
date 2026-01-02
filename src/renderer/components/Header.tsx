@@ -7,12 +7,7 @@ interface HeaderProps {
   onThemeToggle: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ 
-  activeTab, 
-  onTabChange, 
-  theme, 
-  onThemeToggle 
-}) => {
+export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange, theme, onThemeToggle }) => {
   return (
     <header className="app-header">
       <div className="header-content">
@@ -37,8 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
             Settings
           </button>
         </nav>
-        <button 
-          className="theme-toggle" 
+        <button
+          className="theme-toggle"
           onClick={onThemeToggle}
           title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >

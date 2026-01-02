@@ -48,7 +48,7 @@ export class Logger {
    */
   static configure(config: LoggerConfig): void {
     Logger.globalConfig = { ...Logger.globalConfig, ...config };
-    
+
     // Create log directory if file logging is enabled
     if (config.enableFileLogging && config.logDirectory) {
       try {
@@ -89,10 +89,8 @@ export class Logger {
 
     const timestamp = new Date(logMessage.timestamp).toISOString();
     const prefix = `[${timestamp}] [${logMessage.context}] [${level.toUpperCase()}]`;
-    const formattedMessage = args.length > 0 
-      ? `${message} ${JSON.stringify(args)}` 
-      : message;
-    
+    const formattedMessage = args.length > 0 ? `${message} ${JSON.stringify(args)}` : message;
+
     // Console output
     switch (level) {
       case LogLevel.DEBUG:
@@ -140,10 +138,13 @@ export class Logger {
 
     try {
       const logFile = path.join(Logger.globalConfig.logDirectory, 'app.log');
-      const logEntries = this.logBuffer.map((log) => {
-        const timestamp = new Date(log.timestamp).toISOString();
-        return `[${timestamp}] [${log.context}] [${log.level.toUpperCase()}] ${log.message}`;
-      }).join('\n') + '\n';
+      const logEntries =
+        this.logBuffer
+          .map((log) => {
+            const timestamp = new Date(log.timestamp).toISOString();
+            return `[${timestamp}] [${log.context}] [${log.level.toUpperCase()}] ${log.message}`;
+          })
+          .join('\n') + '\n';
 
       // Check file size and rotate if necessary
       this.rotateLogsIfNeeded(logFile);
@@ -170,12 +171,12 @@ export class Logger {
 
       if (stats.size >= maxSize) {
         const maxFiles = Logger.globalConfig.maxLogFiles || 5;
-        
+
         // Rotate existing log files
         for (let i = maxFiles - 1; i >= 1; i--) {
           const oldFile = `${logFile}.${i}`;
           const newFile = `${logFile}.${i + 1}`;
-          
+
           if (fs.existsSync(oldFile)) {
             if (i === maxFiles - 1) {
               fs.unlinkSync(oldFile); // Delete oldest

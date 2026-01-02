@@ -34,7 +34,7 @@ export class PluginManager {
       this.logger.warn(`Plugin path does not exist: ${pluginPath}`);
       return;
     }
-    
+
     this.pluginPaths.push(pluginPath);
     this.logger.info(`Added plugin path: ${pluginPath}`);
   }
@@ -48,11 +48,11 @@ export class PluginManager {
     for (const pluginPath of this.pluginPaths) {
       try {
         const entries = fs.readdirSync(pluginPath, { withFileTypes: true });
-        
+
         for (const entry of entries) {
           if (entry.isDirectory()) {
             const manifestPath = path.join(pluginPath, entry.name, 'plugin.json');
-            
+
             if (fs.existsSync(manifestPath)) {
               try {
                 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
@@ -84,7 +84,7 @@ export class PluginManager {
     try {
       // Find plugin directory
       let pluginDir: string | null = null;
-      
+
       for (const basePath of this.pluginPaths) {
         const candidatePath = path.join(basePath, pluginId);
         if (fs.existsSync(path.join(candidatePath, 'plugin.json'))) {
@@ -103,14 +103,14 @@ export class PluginManager {
 
       // Load main entry if exists
       let pluginInstance: IPlugin | null = null;
-      
+
       if (manifest.mainEntry) {
         const mainPath = path.join(pluginDir, manifest.mainEntry);
-        
+
         if (fs.existsSync(mainPath)) {
           const module = require(mainPath);
           const PluginClass = module.default || module;
-          
+
           if (typeof PluginClass === 'function') {
             pluginInstance = new PluginClass();
           } else if (typeof PluginClass === 'object') {
@@ -135,7 +135,7 @@ export class PluginManager {
 
       this.plugins.set(pluginId, pluginInstance);
       this.eventBus.emit('plugin:loaded', pluginId);
-      
+
       this.logger.info(`Loaded plugin: ${pluginId}`);
       return true;
     } catch (error) {
@@ -149,7 +149,7 @@ export class PluginManager {
    */
   async unloadPlugin(pluginId: string): Promise<boolean> {
     const plugin = this.plugins.get(pluginId);
-    
+
     if (!plugin) {
       this.logger.warn(`Plugin ${pluginId} is not loaded`);
       return false;
@@ -163,7 +163,7 @@ export class PluginManager {
 
       this.plugins.delete(pluginId);
       this.eventBus.emit('plugin:unloaded', pluginId);
-      
+
       this.logger.info(`Unloaded plugin: ${pluginId}`);
       return true;
     } catch (error) {
@@ -177,7 +177,7 @@ export class PluginManager {
    */
   async activatePlugin(pluginId: string): Promise<boolean> {
     const plugin = this.plugins.get(pluginId);
-    
+
     if (!plugin) {
       this.logger.warn(`Plugin ${pluginId} is not loaded`);
       return false;
@@ -202,7 +202,7 @@ export class PluginManager {
    */
   async deactivatePlugin(pluginId: string): Promise<boolean> {
     const plugin = this.plugins.get(pluginId);
-    
+
     if (!plugin) {
       this.logger.warn(`Plugin ${pluginId} is not loaded`);
       return false;

@@ -36,14 +36,14 @@ export const SettingsPanel: React.FC = () => {
   const saveSetting = async (key: keyof Settings, value: any) => {
     setSaving(true);
     const result = await window.electronAPI.settings.set(key, value);
-    
+
     if (result.success) {
-      setSettings((prev) => prev ? { ...prev, [key]: value } : null);
+      setSettings((prev) => (prev ? { ...prev, [key]: value } : null));
       showMessage('success', 'Setting saved successfully');
     } else {
       showMessage('error', 'Failed to save setting');
     }
-    
+
     setSaving(false);
   };
 
@@ -54,14 +54,14 @@ export const SettingsPanel: React.FC = () => {
 
     setSaving(true);
     const result = await window.electronAPI.settings.reset();
-    
+
     if (result.success) {
       await loadSettings();
       showMessage('success', 'Settings reset to defaults');
     } else {
       showMessage('error', 'Failed to reset settings');
     }
-    
+
     setSaving(false);
   };
 
@@ -101,26 +101,18 @@ export const SettingsPanel: React.FC = () => {
       <div className="card">
         <div className="card-header">
           <h2>Application Settings</h2>
-          <button 
-            className="btn btn-danger btn-small" 
-            onClick={resetSettings}
-            disabled={saving}
-          >
+          <button className="btn btn-danger btn-small" onClick={resetSettings} disabled={saving}>
             Reset to Defaults
           </button>
         </div>
-        
-        {message && (
-          <div className={`message message-${message.type}`}>
-            {message.text}
-          </div>
-        )}
-        
+
+        {message && <div className={`message message-${message.type}`}>{message.text}</div>}
+
         <div className="card-content settings-content">
           {/* General Settings */}
           <section className="settings-section">
             <h3>General</h3>
-            
+
             <div className="setting-item">
               <label htmlFor="theme">Theme</label>
               <select
@@ -174,7 +166,7 @@ export const SettingsPanel: React.FC = () => {
           {/* Logging Settings */}
           <section className="settings-section">
             <h3>Logging</h3>
-            
+
             <div className="setting-item">
               <label>
                 <input
@@ -206,7 +198,7 @@ export const SettingsPanel: React.FC = () => {
           {/* Plugin Settings */}
           <section className="settings-section">
             <h3>Plugins</h3>
-            
+
             <div className="setting-item">
               <label>
                 <input
@@ -223,7 +215,7 @@ export const SettingsPanel: React.FC = () => {
           {/* Advanced Settings */}
           <section className="settings-section">
             <h3>Advanced</h3>
-            
+
             <div className="setting-item">
               <label>
                 <input

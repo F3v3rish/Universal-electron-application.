@@ -12,21 +12,21 @@ export interface AppSettings {
   theme: 'light' | 'dark' | 'auto';
   language: string;
   autoUpdate: boolean;
-  
+
   // Performance settings
   maxWorkerThreads?: number;
   enableFileLogging: boolean;
   logLevel: 'debug' | 'info' | 'warn' | 'error';
-  
+
   // UI settings
   showWelcomeScreen: boolean;
   windowWidth: number;
   windowHeight: number;
-  
+
   // Plugin settings
   autoLoadPlugins: boolean;
   pluginPaths: string[];
-  
+
   // Advanced settings
   enableDevTools: boolean;
   enableBackgroundThrottling: boolean;
@@ -63,11 +63,11 @@ export class SettingsManager {
   private constructor() {
     this.logger = Logger.create('SettingsManager');
     this.eventBus = EventBus.getInstance();
-    
+
     // Set settings file path
     const userDataPath = app.getPath('userData');
     this.settingsPath = path.join(userDataPath, 'settings.json');
-    
+
     // Load settings
     this.settings = this.loadSettings();
   }
@@ -87,10 +87,10 @@ export class SettingsManager {
       if (fs.existsSync(this.settingsPath)) {
         const data = fs.readFileSync(this.settingsPath, 'utf-8');
         const loaded = JSON.parse(data);
-        
+
         // Merge with defaults to ensure all keys exist
         const merged = { ...DEFAULT_SETTINGS, ...loaded };
-        
+
         this.logger.info('Settings loaded from file');
         return merged;
       }
@@ -108,13 +108,13 @@ export class SettingsManager {
   private saveSettings(): boolean {
     try {
       const data = JSON.stringify(this.settings, null, 2);
-      
+
       // Ensure directory exists
       const dir = path.dirname(this.settingsPath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      
+
       fs.writeFileSync(this.settingsPath, data, 'utf-8');
       this.logger.info('Settings saved to file');
       return true;
@@ -138,14 +138,14 @@ export class SettingsManager {
     try {
       const oldValue = this.settings[key];
       this.settings[key] = value;
-      
+
       if (this.saveSettings()) {
         // Emit event for setting change
         this.eventBus.emit('settings:changed', { key, oldValue, newValue: value });
         this.logger.debug(`Setting updated: ${key} = ${JSON.stringify(value)}`);
         return true;
       }
-      
+
       return false;
     } catch (error) {
       this.logger.error(`Failed to set setting ${key}:`, error);
@@ -166,7 +166,7 @@ export class SettingsManager {
   update(updates: Partial<AppSettings>): boolean {
     try {
       const changes: Array<{ key: string; oldValue: any; newValue: any }> = [];
-      
+
       for (const [key, value] of Object.entries(updates)) {
         if (key in this.settings) {
           const typedKey = key as keyof AppSettings;
@@ -175,17 +175,17 @@ export class SettingsManager {
           changes.push({ key, oldValue, newValue: value });
         }
       }
-      
+
       if (this.saveSettings()) {
         // Emit events for all changes
         changes.forEach(({ key, oldValue, newValue }) => {
           this.eventBus.emit('settings:changed', { key, oldValue, newValue });
         });
-        
+
         this.logger.info(`Updated ${changes.length} settings`);
         return true;
       }
-      
+
       return false;
     } catch (error) {
       this.logger.error('Failed to update settings:', error);
@@ -199,13 +199,13 @@ export class SettingsManager {
   reset(): boolean {
     try {
       this.settings = { ...DEFAULT_SETTINGS };
-      
+
       if (this.saveSettings()) {
         this.eventBus.emit('settings:reset');
         this.logger.info('Settings reset to defaults');
         return true;
       }
-      
+
       return false;
     } catch (error) {
       this.logger.error('Failed to reset settings:', error);
@@ -239,7 +239,10 @@ export class SettingsManager {
     }
 
     // Validate worker threads
-    if (settings.maxWorkerThreads && (settings.maxWorkerThreads < 1 || settings.maxWorkerThreads > 32)) {
+    if (
+      settings.maxWorkerThreads &&
+      (settings.maxWorkerThreads < 1 || settings.maxWorkerThreads > 32)
+    ) {
       errors.push('Max worker threads must be between 1 and 32');
     }
 
@@ -263,12 +266,12 @@ export class SettingsManager {
     try {
       const imported = JSON.parse(jsonString);
       const validation = this.validate(imported);
-      
+
       if (!validation.valid) {
         this.logger.error('Invalid settings:', validation.errors);
         return false;
       }
-      
+
       return this.update(imported);
     } catch (error) {
       this.logger.error('Failed to import settings:', error);
