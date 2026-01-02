@@ -50,14 +50,15 @@ npm run build:preload   # Build preload script only
 ### Development
 ```bash
 npm run dev            # Build and run in development mode
-npm run watch          # Auto-rebuild on file changes
-npm start              # Build and start application
+npm run watch          # Auto-rebuild on file changes (use in separate terminal)
+npm start              # Same as npm run dev (build and start)
 ```
 
 ### Testing
-- No test framework is currently configured
-- Manual testing required after changes
-- Test the application by running `npm run dev`
+- **Current State**: No test framework is currently configured
+- **Manual Testing**: Test the application by running `npm run dev`
+- **Recommended for Future**: Consider adding testing frameworks like Jest for unit tests, Spectron/Playwright for E2E tests
+- **When Making Changes**: Always manually test the application after building
 
 ## Code Style and Conventions
 
