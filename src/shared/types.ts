@@ -79,6 +79,15 @@ export enum IPCChannel {
   // System channels
   SYSTEM_INFO = 'system:info',
   LOG = 'log',
+  
+  // Settings channels
+  SETTINGS_GET = 'settings:get',
+  SETTINGS_SET = 'settings:set',
+  SETTINGS_GET_ALL = 'settings:get-all',
+  SETTINGS_RESET = 'settings:reset',
+  
+  // Error channels
+  ERROR_CRITICAL = 'error:critical',
 }
 
 /**

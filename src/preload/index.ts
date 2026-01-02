@@ -34,6 +34,14 @@ const api = {
     getInfo: () => ipcRenderer.invoke(IPCChannel.SYSTEM_INFO),
   },
 
+  // Settings APIs
+  settings: {
+    get: (key: string) => ipcRenderer.invoke(IPCChannel.SETTINGS_GET, key),
+    set: (key: string, value: any) => ipcRenderer.invoke(IPCChannel.SETTINGS_SET, key, value),
+    getAll: () => ipcRenderer.invoke(IPCChannel.SETTINGS_GET_ALL),
+    reset: () => ipcRenderer.invoke(IPCChannel.SETTINGS_RESET),
+  },
+
   // Event listener management
   on: (channel: string, callback: (...args: any[]) => void) => {
     ipcRenderer.on(channel, (_event, ...args) => callback(...args));

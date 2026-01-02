@@ -1,0 +1,8 @@
+{
+  "id": "calculator",
+  "name": "Calculator",
+  "version": "1.0.0",
+  "description": "Basic calculator with standard and scientific operations",
+  "author": "Universal Electron Team",
+  "mainEntry": "index.js"
+}
