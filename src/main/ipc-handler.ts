@@ -210,7 +210,11 @@ export class IPCHandler {
     }
   }
 
-  private async handleSettingsSet(_event: IpcMainInvokeEvent, key: string, value: any): Promise<any> {
+  private async handleSettingsSet(
+    _event: IpcMainInvokeEvent,
+    key: string,
+    value: any
+  ): Promise<any> {
     try {
       const success = this.settingsManager.set(key as any, value);
       return { success };

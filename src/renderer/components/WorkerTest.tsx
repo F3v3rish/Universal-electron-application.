@@ -19,7 +19,7 @@ export const WorkerTest: React.FC = () => {
 
     try {
       const result = await window.electronAPI.workers.submitTask(task);
-      
+
       if (result.success) {
         setOutput(JSON.stringify(result.result, null, 2));
       } else {
@@ -39,11 +39,7 @@ export const WorkerTest: React.FC = () => {
       </div>
       <div className="card-content">
         <p>Test the worker pool by running a computation task:</p>
-        <button 
-          className="btn btn-primary" 
-          onClick={runWorkerTask}
-          disabled={running}
-        >
+        <button className="btn btn-primary" onClick={runWorkerTask} disabled={running}>
           {running ? 'Running...' : 'Run Worker Task'}
         </button>
         <pre className="output-box">{output}</pre>

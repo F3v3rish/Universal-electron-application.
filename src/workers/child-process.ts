@@ -35,7 +35,7 @@ registerHandler('heavy-compute', async (data: { iterations: number }) => {
 // Data processing example
 registerHandler('process-array', async (data: { array: number[]; operation: string }) => {
   const { array, operation } = data;
-  
+
   switch (operation) {
     case 'sum':
       return array.reduce((a, b) => a + b, 0);
@@ -54,7 +54,7 @@ registerHandler('process-array', async (data: { array: number[]; operation: stri
 registerHandler('process-file', async (data: { filename: string; operation: string }) => {
   // Simulate heavy file processing
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  
+
   return {
     filename: data.filename,
     operation: data.operation,
@@ -74,7 +74,7 @@ process.on('message', async (message: Message) => {
 
   try {
     const handler = handlers.get(message.type);
-    
+
     if (!handler) {
       throw new Error(`No handler for message type: ${message.type}`);
     }

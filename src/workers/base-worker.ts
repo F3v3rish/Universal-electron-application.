@@ -16,10 +16,7 @@ const taskHandlers: Map<string, (data: any) => Promise<any>> = new Map();
 /**
  * Register a task handler
  */
-export function registerTaskHandler(
-  type: string,
-  handler: (data: any) => Promise<any>
-): void {
+export function registerTaskHandler(type: string, handler: (data: any) => Promise<any>): void {
   taskHandlers.set(type, handler);
 }
 
@@ -30,7 +27,7 @@ export function registerTaskHandler(
 // CPU-intensive calculation example
 registerTaskHandler('compute', async (data: { operation: string; values: number[] }) => {
   const { operation, values } = data;
-  
+
   switch (operation) {
     case 'sum':
       return values.reduce((a, b) => a + b, 0);
@@ -46,7 +43,7 @@ registerTaskHandler('compute', async (data: { operation: string; values: number[
 // Data processing example
 registerTaskHandler('processData', async (data: { items: any[]; transform: string }) => {
   const { items, transform } = data;
-  
+
   // Simulate heavy processing
   return items.map((item) => {
     // Apply transformation based on type
@@ -77,7 +74,7 @@ parentPort.on('message', async (task: WorkerTask | { type: string; taskId: strin
 
   try {
     const handler = taskHandlers.get(workerTask.type);
-    
+
     if (!handler) {
       throw new Error(`No handler registered for task type: ${workerTask.type}`);
     }

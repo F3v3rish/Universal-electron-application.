@@ -64,28 +64,28 @@ export enum IPCChannel {
   PLUGIN_UNLOAD = 'plugin:unload',
   PLUGIN_ACTIVATE = 'plugin:activate',
   PLUGIN_DEACTIVATE = 'plugin:deactivate',
-  
+
   // Worker channels
   WORKER_SUBMIT_TASK = 'worker:submit-task',
   WORKER_CANCEL_TASK = 'worker:cancel-task',
   WORKER_TASK_RESULT = 'worker:task-result',
   WORKER_TASK_PROGRESS = 'worker:task-progress',
-  
+
   // Window channels
   WINDOW_CREATE = 'window:create',
   WINDOW_CLOSE = 'window:close',
   WINDOW_LIST = 'window:list',
-  
+
   // System channels
   SYSTEM_INFO = 'system:info',
   LOG = 'log',
-  
+
   // Settings channels
   SETTINGS_GET = 'settings:get',
   SETTINGS_SET = 'settings:set',
   SETTINGS_GET_ALL = 'settings:get-all',
   SETTINGS_RESET = 'settings:reset',
-  
+
   // Error channels
   ERROR_CRITICAL = 'error:critical',
 }

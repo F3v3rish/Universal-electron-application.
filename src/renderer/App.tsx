@@ -15,7 +15,7 @@ const App: React.FC = () => {
   useEffect(() => {
     // Load theme from settings
     loadTheme();
-    
+
     // Listen for critical errors
     window.electronAPI.on('error:critical', (error: any) => {
       console.error('Critical error:', error);
@@ -26,9 +26,12 @@ const App: React.FC = () => {
   const loadTheme = async () => {
     const result = await window.electronAPI.settings.get('theme');
     if (result.success && result.value) {
-      const themeValue = result.value === 'auto' 
-        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-        : result.value;
+      const themeValue =
+        result.value === 'auto'
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+          : result.value;
       setTheme(themeValue);
       document.documentElement.setAttribute('data-theme', themeValue);
     }
@@ -43,13 +46,13 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <Header 
-        activeTab={activeTab} 
+      <Header
+        activeTab={activeTab}
         onTabChange={setActiveTab}
         theme={theme}
         onThemeToggle={handleThemeToggle}
       />
-      
+
       <main className="main-content">
         {activeTab === 'dashboard' && (
           <div className="dashboard">
@@ -57,14 +60,10 @@ const App: React.FC = () => {
             <WorkerTest />
           </div>
         )}
-        
-        {activeTab === 'plugins' && (
-          <PluginsList />
-        )}
-        
-        {activeTab === 'settings' && (
-          <SettingsPanel />
-        )}
+
+        {activeTab === 'plugins' && <PluginsList />}
+
+        {activeTab === 'settings' && <SettingsPanel />}
       </main>
     </div>
   );

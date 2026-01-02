@@ -29,11 +29,11 @@ async function initializeApp() {
 async function loadSystemInfo() {
   const electronAPI = window.electronAPI;
   const result = await electronAPI.system.getInfo();
-  
+
   if (result.success && result.info) {
     const { info } = result;
     const systemInfoEl = document.getElementById('system-info');
-    
+
     if (systemInfoEl) {
       systemInfoEl.innerHTML = `
         <h3>System Information</h3>
@@ -59,10 +59,10 @@ async function loadSystemInfo() {
 async function loadPlugins() {
   const electronAPI = window.electronAPI;
   const result = await electronAPI.plugins.list();
-  
+
   if (result.success && result.plugins) {
     const pluginsListEl = document.getElementById('plugins-list');
-    
+
     if (pluginsListEl) {
       if (result.plugins.length === 0) {
         pluginsListEl.innerHTML = '<p>No plugins loaded. Add plugins to the plugins directory.</p>';
@@ -88,7 +88,7 @@ async function loadPlugins() {
  */
 function setupEventListeners() {
   const electronAPI = window.electronAPI;
-  
+
   // Test worker button
   const testWorkerBtn = document.getElementById('test-worker');
   if (testWorkerBtn) {
@@ -108,7 +108,7 @@ function setupEventListeners() {
       };
 
       const result = await electronAPI.workers.submitTask(task);
-      
+
       if (outputEl) {
         if (result.success) {
           outputEl.textContent = `Worker result: ${JSON.stringify(result.result, null, 2)}`;

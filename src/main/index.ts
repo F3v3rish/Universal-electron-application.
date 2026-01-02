@@ -33,7 +33,7 @@ class Application {
 
     this.logger = Logger.create('Application');
     this.errorHandler = ErrorHandler.getInstance();
-    
+
     // Set up error handler listener
     this.errorHandler.onError((error: AppError) => {
       // Send critical errors to renderer for user notification
@@ -57,7 +57,9 @@ class Application {
       this.logger.info('Initializing application...');
       this.logger.info(`Platform: ${process.platform}, Architecture: ${process.arch}`);
       this.logger.info(`Node: ${process.version}, Electron: ${process.versions.electron}`);
-      this.logger.info(`CPUs: ${os.cpus().length}, Memory: ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`);
+      this.logger.info(
+        `CPUs: ${os.cpus().length}, Memory: ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`
+      );
 
       // Register IPC handlers
       this.ipcHandler.registerHandlers();
@@ -68,25 +70,24 @@ class Application {
 
       // Initialize worker pool with error handling
       const workerScript = path.join(__dirname, '../workers/base-worker.js');
-      await this.errorHandler.handleWithRecovery(
-        () => this.workerPoolManager.initialize(workerScript),
-        {
+      await this.errorHandler
+        .handleWithRecovery(() => this.workerPoolManager.initialize(workerScript), {
           strategy: RecoveryStrategy.RETRY,
           maxRetries: 3,
           retryDelay: 1000,
           onError: (error) => {
             this.logger.error('Worker pool initialization failed:', error);
           },
-        }
-      ).catch((err) => {
-        this.logger.error('Failed to initialize worker pool after retries:', err);
-        throw new AppError(
-          ErrorCode.WORKER_POOL_INIT_FAILED,
-          'Could not initialize worker pool',
-          { error: err },
-          false
-        );
-      });
+        })
+        .catch((err) => {
+          this.logger.error('Failed to initialize worker pool after retries:', err);
+          throw new AppError(
+            ErrorCode.WORKER_POOL_INIT_FAILED,
+            'Could not initialize worker pool',
+            { error: err },
+            false
+          );
+        });
 
       // Discover and load plugins
       await this.pluginManager.discoverPlugins();
@@ -94,9 +95,7 @@ class Application {
       this.logger.info('Application initialized successfully');
     } catch (error) {
       this.logger.error('Application initialization failed:', error);
-      this.errorHandler.handle(
-        error instanceof Error ? error : new Error(String(error))
-      );
+      this.errorHandler.handle(error instanceof Error ? error : new Error(String(error)));
       throw error;
     }
   }
@@ -130,9 +129,7 @@ class Application {
       this.logger.info('Application shut down successfully');
     } catch (error) {
       this.logger.error('Error during shutdown:', error);
-      this.errorHandler.handle(
-        error instanceof Error ? error : new Error(String(error))
-      );
+      this.errorHandler.handle(error instanceof Error ? error : new Error(String(error)));
     }
   }
 }
@@ -174,7 +171,7 @@ app.on('before-quit', async (event) => {
 process.on('uncaughtException', (error) => {
   const logger = Logger.create('UncaughtException');
   logger.error('Uncaught exception:', error);
-  
+
   const errorHandler = ErrorHandler.getInstance();
   errorHandler.handle(
     new AppError(
@@ -189,7 +186,7 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (reason, promise) => {
   const logger = Logger.create('UnhandledRejection');
   logger.error('Unhandled rejection at:', promise, 'reason:', reason);
-  
+
   const errorHandler = ErrorHandler.getInstance();
   errorHandler.handle(
     new AppError(

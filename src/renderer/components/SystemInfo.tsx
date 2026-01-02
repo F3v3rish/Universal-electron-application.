@@ -106,7 +106,8 @@ export const SystemInfo: React.FC = () => {
           <div className="info-item">
             <span className="info-label">Worker Pool:</span>
             <span className="info-value">
-              {info.workerPool.totalWorkers} workers ({info.workerPool.activeWorkers} active, {info.workerPool.queuedTasks} queued)
+              {info.workerPool.totalWorkers} workers ({info.workerPool.activeWorkers} active,{' '}
+              {info.workerPool.queuedTasks} queued)
             </span>
           </div>
           <div className="info-item">

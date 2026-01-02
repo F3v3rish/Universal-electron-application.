@@ -107,7 +107,7 @@ export class ChildProcessManager extends EventEmitter {
    */
   send(processId: string, message: ChildProcessMessage): boolean {
     const childProcess = this.processes.get(processId);
-    
+
     if (!childProcess) {
       this.logger.warn(`Child process ${processId} not found`);
       return false;
@@ -126,7 +126,7 @@ export class ChildProcessManager extends EventEmitter {
     callback: (data: any) => void
   ): boolean {
     const childProcess = this.processes.get(processId);
-    
+
     if (!childProcess) {
       this.logger.warn(`Child process ${processId} not found`);
       return false;
@@ -175,7 +175,7 @@ export class ChildProcessManager extends EventEmitter {
    */
   private handleChildMessage(processId: string, message: ChildProcessMessage): void {
     const callbacks = this.messageCallbacks.get(processId);
-    
+
     if (callbacks?.has(message.id)) {
       const callback = callbacks.get(message.id)!;
       callback(message.data);
@@ -191,7 +191,7 @@ export class ChildProcessManager extends EventEmitter {
    */
   kill(processId: string, signal?: NodeJS.Signals): boolean {
     const childProcess = this.processes.get(processId);
-    
+
     if (!childProcess) {
       return false;
     }
@@ -220,7 +220,7 @@ export class ChildProcessManager extends EventEmitter {
    */
   killAll(): void {
     this.logger.info('Killing all child processes...');
-    
+
     this.processes.forEach((childProcess, id) => {
       this.logger.info(`Killing child process: ${id}`);
       childProcess.kill('SIGTERM');

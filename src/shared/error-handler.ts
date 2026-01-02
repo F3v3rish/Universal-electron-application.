@@ -9,34 +9,34 @@ export enum ErrorCode {
   SYSTEM_INITIALIZATION_FAILED = 'SYS_1001',
   SYSTEM_SHUTDOWN_FAILED = 'SYS_1002',
   SYSTEM_OUT_OF_MEMORY = 'SYS_1003',
-  
+
   // Worker errors (2xxx)
   WORKER_POOL_INIT_FAILED = 'WRK_2000',
   WORKER_TASK_FAILED = 'WRK_2001',
   WORKER_TASK_TIMEOUT = 'WRK_2002',
   WORKER_NOT_AVAILABLE = 'WRK_2003',
-  
+
   // Plugin errors (3xxx)
   PLUGIN_NOT_FOUND = 'PLG_3000',
   PLUGIN_LOAD_FAILED = 'PLG_3001',
   PLUGIN_INVALID_MANIFEST = 'PLG_3002',
   PLUGIN_LIFECYCLE_FAILED = 'PLG_3003',
   PLUGIN_ALREADY_LOADED = 'PLG_3004',
-  
+
   // IPC errors (4xxx)
   IPC_INVALID_CHANNEL = 'IPC_4000',
   IPC_INVALID_PAYLOAD = 'IPC_4001',
   IPC_HANDLER_FAILED = 'IPC_4002',
-  
+
   // Child process errors (5xxx)
   CHILD_PROCESS_SPAWN_FAILED = 'CPR_5000',
   CHILD_PROCESS_COMMUNICATION_FAILED = 'CPR_5001',
   CHILD_PROCESS_TIMEOUT = 'CPR_5002',
-  
+
   // Window errors (6xxx)
   WINDOW_CREATE_FAILED = 'WIN_6000',
   WINDOW_NOT_FOUND = 'WIN_6001',
-  
+
   // File system errors (7xxx)
   FILE_NOT_FOUND = 'FS_7000',
   FILE_READ_FAILED = 'FS_7001',
@@ -53,19 +53,14 @@ export class AppError extends Error {
   public readonly timestamp: number;
   public readonly recoverable: boolean;
 
-  constructor(
-    code: ErrorCode,
-    message: string,
-    context?: any,
-    recoverable: boolean = true
-  ) {
+  constructor(code: ErrorCode, message: string, context?: any, recoverable: boolean = true) {
     super(message);
     this.name = 'AppError';
     this.code = code;
     this.context = context;
     this.timestamp = Date.now();
     this.recoverable = recoverable;
-    
+
     // Maintain proper stack trace
     Error.captureStackTrace(this, AppError);
   }
@@ -91,7 +86,8 @@ export class AppError extends Error {
   getUserMessage(): string {
     // Map error codes to user-friendly messages
     const userMessages: Record<string, string> = {
-      [ErrorCode.SYSTEM_OUT_OF_MEMORY]: 'The application is running low on memory. Please close some tasks.',
+      [ErrorCode.SYSTEM_OUT_OF_MEMORY]:
+        'The application is running low on memory. Please close some tasks.',
       [ErrorCode.WORKER_TASK_TIMEOUT]: 'The operation took too long and was cancelled.',
       [ErrorCode.PLUGIN_NOT_FOUND]: 'The requested plugin could not be found.',
       [ErrorCode.PLUGIN_LOAD_FAILED]: 'Failed to load the plugin. Please check the plugin files.',
@@ -155,9 +151,10 @@ export class ErrorHandler {
    * Handle an error
    */
   handle(error: Error | AppError, context?: any): void {
-    const appError = error instanceof AppError 
-      ? error 
-      : new AppError(ErrorCode.SYSTEM_UNKNOWN, error.message, context);
+    const appError =
+      error instanceof AppError
+        ? error
+        : new AppError(ErrorCode.SYSTEM_UNKNOWN, error.message, context);
 
     // Log the error
     this.logger.error(`[${appError.code}] ${appError.message}`, {
@@ -183,17 +180,21 @@ export class ErrorHandler {
     config: RecoveryConfig
   ): Promise<T | null> {
     const { strategy, maxRetries = 3, retryDelay = 1000, fallbackAction } = config;
-    
+
     let lastError: AppError | null = null;
-    
+
     for (let attempt = 1; attempt <= (maxRetries || 1); attempt++) {
       try {
         return await operation();
       } catch (error) {
-        lastError = error instanceof AppError 
-          ? error 
-          : new AppError(ErrorCode.SYSTEM_UNKNOWN, error instanceof Error ? error.message : String(error));
-        
+        lastError =
+          error instanceof AppError
+            ? error
+            : new AppError(
+                ErrorCode.SYSTEM_UNKNOWN,
+                error instanceof Error ? error.message : String(error)
+              );
+
         this.handle(lastError);
 
         if (strategy === RecoveryStrategy.RETRY && attempt < (maxRetries || 1)) {
@@ -211,7 +212,7 @@ export class ErrorHandler {
           this.logger.warn('Ignoring error as per recovery strategy');
           return null;
         }
-        
+
         break;
       }
     }
@@ -234,9 +235,10 @@ export class ErrorHandler {
       try {
         return await fn(...args);
       } catch (error) {
-        const appError = error instanceof AppError
-          ? error
-          : new AppError(errorCode, error instanceof Error ? error.message : String(error));
+        const appError =
+          error instanceof AppError
+            ? error
+            : new AppError(errorCode, error instanceof Error ? error.message : String(error));
         this.handle(appError);
         throw appError;
       }

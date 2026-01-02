@@ -37,33 +37,33 @@ export class WorkerPoolManager extends EventEmitter {
    */
   async initialize(workerScript: string): Promise<void> {
     this.logger.info('Creating worker pool...');
-    
+
     for (let i = 0; i < this.maxWorkers; i++) {
       try {
         const worker = new Worker(workerScript);
-        
+
         worker.on('message', (message: WorkerTaskResult) => {
           this.handleWorkerMessage(worker, message);
         });
-        
+
         worker.on('error', (error) => {
           this.logger.error(`Worker error:`, error);
           this.handleWorkerError(worker, error);
         });
-        
+
         worker.on('exit', (code) => {
           if (code !== 0) {
             this.logger.error(`Worker stopped with exit code ${code}`);
           }
           this.removeWorker(worker);
         });
-        
+
         this.workers.push(worker);
       } catch (error) {
         this.logger.error(`Failed to create worker:`, error);
       }
     }
-    
+
     this.logger.info(`Worker pool created with ${this.workers.length} workers`);
   }
 
@@ -166,11 +166,11 @@ export class WorkerPoolManager extends EventEmitter {
           callbacks.reject(error);
           delete (worker as any).__taskCallbacks[taskId];
         }
-        
+
         if (taskInfo.timeout) {
           clearTimeout(taskInfo.timeout);
         }
-        
+
         this.activeTasks.delete(taskId);
       }
     }
@@ -190,10 +190,10 @@ export class WorkerPoolManager extends EventEmitter {
     }
 
     this.activeTasks.delete(taskId);
-    
+
     // Notify worker to cancel (worker needs to handle this)
     taskInfo.worker.postMessage({ type: 'cancel', taskId });
-    
+
     return true;
   }
 
@@ -212,7 +212,7 @@ export class WorkerPoolManager extends EventEmitter {
    */
   async shutdown(): Promise<void> {
     this.logger.info('Shutting down worker pool...');
-    
+
     // Clear task queue
     this.taskQueue.forEach(({ reject }) => {
       reject(new Error('Worker pool is shutting down'));
@@ -230,7 +230,7 @@ export class WorkerPoolManager extends EventEmitter {
 
     this.workers = [];
     this.activeTasks.clear();
-    
+
     this.logger.info('Worker pool shut down');
   }
 
