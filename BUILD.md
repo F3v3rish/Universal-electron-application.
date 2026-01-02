@@ -77,7 +77,23 @@ Build only specific components:
 npm run build:main      # Build main process only
 npm run build:renderer  # Build renderer process only
 npm run build:preload   # Build preload script only
+npm run build:verify    # Verify build output (cross-platform)
 ```
+
+### Build Verification
+
+After building, you can verify that all required files were created:
+
+```bash
+npm run build:verify
+```
+
+This runs a cross-platform verification script that checks for:
+- `dist/main/main/index.js` - Main process entry point
+- `dist/renderer/renderer/app.js` - Renderer bundle
+- `dist/preload/preload/index.js` - Preload script
+
+The script works on Windows, macOS, and Linux.
 
 ## Package for Distribution
 

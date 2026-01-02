@@ -49,13 +49,7 @@ jobs:
         run: npm run build:preload
       
       - name: Verify build output
-        run: |
-          # Note: The nested directory structure is correct per BUILD.md
-          # TypeScript compiles src/ to dist/, preserving directory structure
-          test -f dist/main/main/index.js || exit 1
-          test -f dist/renderer/renderer/index.js || exit 1
-          test -f dist/preload/preload/index.js || exit 1
-        shell: bash
+        run: npm run build:verify
       
       # Security audit
       - name: Run security audit

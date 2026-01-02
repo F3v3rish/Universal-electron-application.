@@ -14,6 +14,20 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Load theme from settings
+    const loadTheme = async () => {
+      const result = await window.electronAPI.settings.get('theme');
+      if (result.success && result.value) {
+        const themeValue =
+          result.value === 'auto'
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : result.value;
+        setTheme(themeValue);
+        document.documentElement.setAttribute('data-theme', themeValue);
+      }
+    };
+
     loadTheme();
 
     // Listen for critical errors
@@ -22,20 +36,6 @@ const App: React.FC = () => {
       // Could show a modal here
     });
   }, []);
-
-  const loadTheme = async () => {
-    const result = await window.electronAPI.settings.get('theme');
-    if (result.success && result.value) {
-      const themeValue =
-        result.value === 'auto'
-          ? window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light'
-          : result.value;
-      setTheme(themeValue);
-      document.documentElement.setAttribute('data-theme', themeValue);
-    }
-  };
 
   const handleThemeToggle = async () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
