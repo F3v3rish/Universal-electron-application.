@@ -137,6 +137,11 @@ export class Logger {
     }
 
     try {
+      // Ensure log directory exists before writing
+      if (!fs.existsSync(Logger.globalConfig.logDirectory)) {
+        fs.mkdirSync(Logger.globalConfig.logDirectory, { recursive: true });
+      }
+
       const logFile = path.join(Logger.globalConfig.logDirectory, 'app.log');
       const logEntries =
         this.logBuffer
