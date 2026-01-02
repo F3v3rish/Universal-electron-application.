@@ -15,8 +15,7 @@ This directory contains GitHub Actions workflows for automating CI/CD processes.
 - Tests with Node.js 18.x and 20.x
 - **Setup steps (run before firewall):**
   - Checks out code
-  - Sets up Node.js with npm caching
-  - Caches node_modules for faster builds
+  - Sets up Node.js with automatic npm caching
   - Installs dependencies
 - Validates code with linting and formatting checks
 - Builds all components (main, renderer, preload)
@@ -39,8 +38,7 @@ This directory contains GitHub Actions workflows for automating CI/CD processes.
 **What it does:**
 - **Setup steps (run before firewall):**
   - Checks out code
-  - Sets up Node.js 20 with npm caching
-  - Caches node_modules
+  - Sets up Node.js 20 with automatic npm caching
   - Installs dependencies
 - Builds application in production mode
 - Creates platform-specific packages (AppImage, NSIS, DMG)
@@ -63,7 +61,7 @@ This directory contains GitHub Actions workflows for automating CI/CD processes.
 **What it does:**
 - **Setup steps (run before firewall):**
   - Checks out code
-  - Sets up Node.js 20 with npm caching
+  - Sets up Node.js 20 with automatic npm caching
   - Installs dependencies
 - Runs npm security audit
 - Checks for outdated packages
@@ -80,16 +78,15 @@ This directory contains GitHub Actions workflows for automating CI/CD processes.
 All workflows follow a consistent pattern of running setup steps **before any firewall is enabled**:
 
 1. **Checkout code** - Uses `actions/checkout@v4`
-2. **Setup Node.js** - Uses `actions/setup-node@v4` with npm caching
-3. **Cache dependencies** - Uses `actions/cache@v4` for node_modules
-4. **Install dependencies** - Runs `npm ci` for reproducible builds
+2. **Setup Node.js** - Uses `actions/setup-node@v4` with automatic npm caching via `cache: 'npm'` parameter
+3. **Install dependencies** - Runs `npm ci` for reproducible builds
 
 These steps ensure that all necessary tools and dependencies are available before any network restrictions or firewalls are applied by subsequent steps or security policies.
 
 ## Best Practices Implemented
 
 - ✅ Use of `npm ci` instead of `npm install` for reproducible builds
-- ✅ Dependency caching to speed up builds
+- ✅ Automatic dependency caching via setup-node's built-in feature
 - ✅ Matrix testing for cross-platform compatibility
 - ✅ Security audits on every build
 - ✅ Artifact retention for debugging
@@ -97,6 +94,7 @@ These steps ensure that all necessary tools and dependencies are available befor
 - ✅ Latest action versions (v4)
 - ✅ Clear step names and comments
 - ✅ Environment variable security
+- ✅ Separate release job to avoid conflicts
 
 ## Usage
 
