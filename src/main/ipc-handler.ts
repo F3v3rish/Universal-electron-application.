@@ -4,6 +4,7 @@ import { PluginManager } from './plugin-manager';
 import { WorkerPoolManager } from './worker-pool-manager';
 import { ChildProcessManager } from './child-process-manager';
 import { WindowManager } from './window-manager';
+import { SettingsManager } from './settings-manager';
 import { Logger } from '../shared/logger';
 import * as os from 'os';
 
@@ -16,6 +17,7 @@ export class IPCHandler {
   private workerPoolManager: WorkerPoolManager;
   private childProcessManager: ChildProcessManager;
   private windowManager: WindowManager;
+  private settingsManager: SettingsManager;
   private logger: Logger;
 
   private constructor() {
@@ -23,6 +25,7 @@ export class IPCHandler {
     this.workerPoolManager = WorkerPoolManager.getInstance();
     this.childProcessManager = ChildProcessManager.getInstance();
     this.windowManager = WindowManager.getInstance();
+    this.settingsManager = SettingsManager.getInstance();
     this.logger = Logger.create('IPCHandler');
   }
 
@@ -52,6 +55,12 @@ export class IPCHandler {
 
     // System handlers
     ipcMain.handle(IPCChannel.SYSTEM_INFO, this.handleSystemInfo.bind(this));
+
+    // Settings handlers
+    ipcMain.handle(IPCChannel.SETTINGS_GET, this.handleSettingsGet.bind(this));
+    ipcMain.handle(IPCChannel.SETTINGS_SET, this.handleSettingsSet.bind(this));
+    ipcMain.handle(IPCChannel.SETTINGS_GET_ALL, this.handleSettingsGetAll.bind(this));
+    ipcMain.handle(IPCChannel.SETTINGS_RESET, this.handleSettingsReset.bind(this));
 
     this.logger.info('IPC handlers registered');
   }
@@ -184,5 +193,56 @@ export class IPCHandler {
    */
   sendToRenderer(channel: string, ...args: any[]): void {
     this.windowManager.sendToMainWindow(channel, ...args);
+  }
+
+  /**
+   * Settings handlers
+   */
+  private async handleSettingsGet(_event: IpcMainInvokeEvent, key: string): Promise<any> {
+    try {
+      const value = this.settingsManager.get(key as any);
+      return { success: true, value };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async handleSettingsSet(_event: IpcMainInvokeEvent, key: string, value: any): Promise<any> {
+    try {
+      const success = this.settingsManager.set(key as any, value);
+      return { success };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async handleSettingsGetAll(): Promise<any> {
+    try {
+      const settings = this.settingsManager.getAll();
+      return { success: true, settings };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async handleSettingsReset(): Promise<any> {
+    try {
+      const success = this.settingsManager.reset();
+      return { success };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
   }
 }
