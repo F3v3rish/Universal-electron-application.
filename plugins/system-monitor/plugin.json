@@ -1,0 +1,8 @@
+{
+  "id": "system-monitor",
+  "name": "System Monitor",
+  "version": "1.0.0",
+  "description": "Real-time system resource monitoring with CPU, memory, and disk usage tracking",
+  "author": "Universal Electron Team",
+  "mainEntry": "index.js"
+}
