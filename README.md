@@ -1,6 +1,26 @@
 # Universal Electron Application
 
-A high-performance, universal Electron application with a single-window architecture, optimized for multi-function workflows using worker threads and child processes. Designed for high-end PCs with multi-core processors.
+A high-performance, universal Electron application with a **modern React UI**, single-window architecture, and advanced plugin system. Optimized for multi-function workflows using worker threads and child processes. Designed for high-end PCs with multi-core processors.
+
+## ✨ New Features
+
+- 🎨 **Modern React UI** with theme support (light/dark mode)
+- ⚙️ **Settings Management** with JSON persistence
+- 📊 **System Monitor Plugin** for real-time resource tracking
+- 🧮 **Calculator Plugin** with scientific operations
+- 🔧 **Enhanced Error Handling** with recovery strategies
+- 📝 **File-based Logging** with rotation support
+- 💅 **ESLint & Prettier** for code quality
+
+## Screenshots
+
+### Dark Theme Dashboard
+![Dashboard](docs/screenshots/dashboard-dark.png)
+
+### Light Theme with Settings
+![Settings](docs/screenshots/settings-light.png)
+
+*Note: Screenshots coming soon*
 
 ## Architecture Overview
 
@@ -73,14 +93,30 @@ This application implements a scalable, modular architecture with the following 
 
 ## Key Features
 
+### Core Features
 - ✅ **Single Window Architecture**: One main window for all functionality
+- ✅ **Modern React UI**: Component-based interface with TypeScript
+- ✅ **Theme System**: Light and dark mode with smooth transitions
 - ✅ **Worker Thread Pool**: Parallel execution of CPU-intensive tasks
 - ✅ **Child Process Support**: Spawn isolated Node.js processes for heavy workloads
-- ✅ **Plugin System**: Modular, extensible architecture
-- ✅ **Callback-based Communication**: Efficient IPC with callbacks and promises
+- ✅ **Plugin System**: Modular, extensible architecture with hot-reload support
+- ✅ **Settings Management**: Persistent configuration with validation
+- ✅ **Enhanced Error Handling**: Centralized error management with recovery strategies
+- ✅ **File-based Logging**: Rotating log files with configurable levels
 - ✅ **High Performance**: Optimized for multi-core, high-end PCs
 - ✅ **TypeScript**: Full TypeScript support for type safety
 - ✅ **Secure**: Context isolation and preload script security
+
+### Built-in Plugins
+- 📊 **System Monitor**: Real-time CPU, memory, and load monitoring
+- 🧮 **Calculator**: Basic and scientific calculations with history
+- 📦 **Example Plugin**: Template for creating custom plugins
+
+### Developer Experience
+- 🔍 **ESLint**: Code quality and consistency
+- 💅 **Prettier**: Automatic code formatting
+- 📚 **Comprehensive Documentation**: Detailed guides and API docs
+- 🛠️ **Easy Plugin Development**: Simple API and lifecycle hooks
 
 ## Installation
 
@@ -109,7 +145,7 @@ npm run build
 # Build main process only
 npm run build:main
 
-# Build renderer process only
+# Build renderer process only (with React)
 npm run build:renderer
 
 # Build preload script only
@@ -117,6 +153,12 @@ npm run build:preload
 
 # Watch mode (auto-rebuild on changes)
 npm run watch
+
+# Lint and format
+npm run lint          # Check code quality
+npm run lint:fix      # Auto-fix linting issues
+npm run format        # Format code with Prettier
+npm run format:check  # Check code formatting
 ```
 
 ### Project Structure
@@ -155,7 +197,9 @@ universal-electron-application/
 
 ## Creating Plugins
 
-Plugins extend the application with custom functionality. To create a plugin:
+Plugins extend the application with custom functionality. See [PLUGINS.md](PLUGINS.md) for the complete guide.
+
+### Quick Start
 
 1. Create a directory in `plugins/` with your plugin name
 2. Add a `plugin.json` manifest file:
@@ -195,6 +239,13 @@ class MyPlugin {
 module.exports = MyPlugin;
 ```
 
+### Example Plugins
+
+Check out the included plugins for reference:
+- **system-monitor**: Real-time system resource monitoring
+- **calculator**: Calculator with scientific operations
+- **example-plugin**: Basic plugin template
+
 ## Using Worker Threads
 
 Submit tasks to the worker pool from the renderer:
@@ -227,7 +278,42 @@ This application is optimized for high-end PCs:
 - ✅ Preload script for safe API exposure
 - ✅ Content Security Policy
 - ✅ IPC message validation
+- ✅ Centralized error handling
+- ✅ Plugin sandboxing (coming soon)
+
+## Documentation
+
+- **[README.md](README.md)**: Project overview and quick start
+- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Detailed technical architecture
+- **[USAGE.md](USAGE.md)**: API reference and usage examples
+- **[PLUGINS.md](PLUGINS.md)**: Plugin development guide
+- **[CONTRIBUTING.md](CONTRIBUTING.md)**: Contribution guidelines
+- **[CHANGELOG.md](CHANGELOG.md)**: Version history
+- **[BUILD.md](BUILD.md)**: Build instructions
+- **[QUICKSTART.md](QUICKSTART.md)**: Quick start guide
+- **[ROADMAP.md](ROADMAP.md)**: Future plans
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+### Quick Contribution Guide
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes
+4. Run linter and formatter: `npm run lint:fix && npm run format`
+5. Commit your changes: `git commit -m 'Add amazing feature'`
+6. Push to the branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
 
 ## License
 
 MIT
+
+## Acknowledgments
+
+- Built with [Electron](https://www.electronjs.org/)
+- UI powered by [React](https://reactjs.org/)
+- Bundled with [esbuild](https://esbuild.github.io/)
+- Code quality with [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/)
