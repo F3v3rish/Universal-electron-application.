@@ -7,11 +7,10 @@
     "dev": "npm run build && electron .",
     "build": "npm run build:main && npm run build:renderer && npm run build:preload",
     "build:main": "tsc -p tsconfig.main.json",
-    "build:renderer": "tsc -p tsconfig.renderer.json",
+    "build:renderer": "node scripts/build-renderer.js",
     "build:preload": "tsc -p tsconfig.preload.json",
-    "watch": "concurrently \"npm run watch:main\" \"npm run watch:renderer\" \"npm run watch:preload\"",
+    "watch": "concurrently \"npm run watch:main\" \"npm run watch:preload\"",
     "watch:main": "tsc -p tsconfig.main.json --watch",
-    "watch:renderer": "tsc -p tsconfig.renderer.json --watch",
     "watch:preload": "tsc -p tsconfig.preload.json --watch",
     "start": "npm run build && electron .",
     "package": "npm run build && electron-builder"
@@ -27,12 +26,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.10.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "concurrently": "^8.2.2",
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1",
+    "esbuild": "^0.27.2",
     "typescript": "^5.3.2"
   },
-  "dependencies": {},
   "build": {
     "appId": "com.universal.electron",
     "productName": "Universal Electron App",
@@ -52,5 +53,9 @@
     "linux": {
       "target": "AppImage"
     }
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   }
 }
