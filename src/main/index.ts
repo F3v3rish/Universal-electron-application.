@@ -37,11 +37,11 @@ class Application {
     this.ipcHandler.registerHandlers();
 
     // Set up plugin paths
-    const pluginsPath = path.join(__dirname, '../../plugins');
+    const pluginsPath = path.join(__dirname, '../../../plugins');
     this.pluginManager.addPluginPath(pluginsPath);
 
     // Initialize worker pool
-    const workerScript = path.join(__dirname, 'workers/base-worker.js');
+    const workerScript = path.join(__dirname, '../workers/base-worker.js');
     await this.workerPoolManager.initialize(workerScript).catch((err) => {
       this.logger.error('Failed to initialize worker pool:', err);
     });
@@ -56,7 +56,7 @@ class Application {
    * Create the main window
    */
   createMainWindow(): void {
-    const htmlPath = path.join(__dirname, '../../renderer/index.html');
+    const htmlPath = path.join(__dirname, '../../../renderer/index.html');
     this.windowManager.createMainWindow(htmlPath);
   }
 

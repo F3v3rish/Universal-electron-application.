@@ -2,7 +2,7 @@
   "name": "universal-electron-application",
   "version": "1.0.0",
   "description": "A universal application that uses electron as a front end for super optimized workflow and multi-worker execution",
-  "main": "dist/main/index.js",
+  "main": "dist/main/main/index.js",
   "scripts": {
     "dev": "npm run build && electron .",
     "build": "npm run build:main && npm run build:renderer && npm run build:preload",
