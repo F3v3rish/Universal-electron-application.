@@ -128,6 +128,18 @@ export ELECTRON_DISABLE_SANDBOX=1
 npm start
 ```
 
+### Headless/CI Environment
+
+For running in CI/CD or headless environments without a display:
+
+```bash
+# Start virtual display (requires Xvfb)
+Xvfb :99 -screen 0 1920x1080x24 &
+
+# Run Electron with virtual display
+DISPLAY=:99 ./node_modules/.bin/electron . --no-sandbox --disable-gpu
+```
+
 ### Port Already in Use
 
 If running multiple instances, ensure previous instances are closed:
